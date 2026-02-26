@@ -1,0 +1,3 @@
+[submodule "oeuf"]
+	path = oeuf
+	url = https://github.com/asqel/oeuf.git
