@@ -5,6 +5,7 @@
 #include <sys/socket.h>
 #include <poll.h>
 #include <unistd.h>
+#include <signal.h>
 
 #define PORT 8080
 
@@ -16,8 +17,21 @@ typedef struct message_t {
 message_t *messages;
 int count = 0;
 
+void handle_sigint(int sig)
+{
+	(void)sig;
+	printf("\nAu revoir !\n");
+	for (int i = 0; i < count; i++) {
+		free(messages[i].message);
+	}
+	free(messages);
+	exit(0);
+}
+
 int main(void)
 {
+	signal(SIGINT, handle_sigint);  // Ctrl+C
+	signal(SIGTERM, handle_sigint); // kill (terminaison propre)
 	int fd = socket(AF_INET, SOCK_DGRAM, 0);
 
 	struct sockaddr_in addr = {
@@ -64,7 +78,10 @@ int main(void)
 			}
 		}
 	}
-
+	for (int i = 0; i < count; i++) {
+		free(messages[i].message);
+	}
+	free(messages);
 	close(fd);
 	return 0;
 }
