@@ -13,14 +13,16 @@
 #include <oeuf.h>
 
 #define PORT 8080
-#define MAX_PACKET_LEN  1024
+#define TYPE_LEN 1
+#define CHANNEL_LEN 16
+#define MESSAGE_LEN 1000
+#define PACKET_LEN  (TYPE_LEN + CHANNEL_LEN + MESSAGE_LEN)
 
 typedef struct {
 	struct sockaddr_in addr;
 	uint8_t type;
-	uint8_t xid;
-	char channel[17];
-	char data[MAX_PACKET_LEN];
+	char channel[CHANNEL_LEN + 1];
+	char data[MESSAGE_LEN + 1];
 } packet_t;
 
 int parse_packet(packet_t *packet, char *buffer, int len);

@@ -40,35 +40,8 @@ int main(void) {
 
 		if (pfd.revents & POLLIN)
 			read_client(fd);
-		if (pfd.revents & POLLOUT)
+		if (pfd.revents & POLLOUT && to_send_len)
 			update_send(fd);
-		// 	struct sockaddr_in client;
-		// 	socklen_t client_len = sizeof(client);
-
-		// 	char buf[MAX_PACKET_LEN];
-
-		// 	int n = recvfrom(fd, buf, MAX_PACKET_LEN, 0, (struct sockaddr *)&client, &client_len);
-		// 	packet_t packet = (packet_t){0};
-
-		// 	if (parse_packet(&packet, buf, n))
-		// 		continue;
-
-		// 	if (buf[0] == 'R') {
-
-		// 	}
-		// 	else if(buf[0] == 'W') {
-
-		// 	}
-		// 	else if (buf[0] == 'L') {
-		// 		to_send = realloc(to_send, (to_send_len + 1) * sizeof(packet_t));
-		// 		to_send[to_send_len - 1].addr = client;
-		// 		msg_lst *lst = oe_hashmap_get(&channels, "general");
-		// 		sprintf(to_send[to_send_len].buffer, "%lu", lst->len);
-		// 		to_send[to_send_len].type = 'l';
-		// 		to_send[to_send_len].xid =
-		// 		to_send_len++;
-		// 	}
-		// }
 	}
 	close(fd);
 	return 0;
