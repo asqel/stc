@@ -5,9 +5,9 @@
 #include <string.h>
 #include <sys/poll.h>
 #include <sys/socket.h>
-#include <type_traits>
 #include <unistd.h>
 #include "client.h"
+#include "common.h"
 
 int main(int argc, char **argv)
 {
@@ -21,26 +21,14 @@ int main(int argc, char **argv)
 	inet_pton(AF_INET, "127.0.0.1", &addr.sin_addr.s_addr);    // converti l'ip en binaire
 	addr.sin_port = htons(PORT);
 
+	packet_t packet = (packet_t){0};
+	parse_argv(&packet, argc, argv);
 
-	if (strcmp(argv[1], "r") == 0) {
-		client_read(fd, addr);
+	if (packet.type == 'r') {
+		client_read(fd, packet);
 	}
-	else if (strcmp(argv[1], "w") == 0) {
-		char *tmp;
-		if (argc < 3) {
-			char buf[1024];
-			int len = read(1, buf, 1024);
-			buf[len] = '\0';
-			tmp = malloc(len * sizeof(char) + 2);
-			sprintf(tmp, "w%s", buf);
-		}
-		else {
-			tmp = malloc(strlen(argv[2]) * sizeof(char) + 2);
-			sprintf(tmp, "w%s", argv[2]);
-		}
-		sendto(fd, tmp, strlen(tmp), 0, (struct sockaddr *) &addr, sizeof(addr));
-		printf("sending: %s\n", &tmp[1]);
-		free(tmp);
+	else if (packet.type == 'w') {
+		client_write(fd, packet);
 	}
 	close(fd);
 	return (0);

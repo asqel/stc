@@ -5,6 +5,9 @@
 
 #define SERVER_ADDR "127.0.0.1"
 
-void client_read(int fd, sockaddr_in addr);
+void parse_argv(packet_t *packet, int argc, char **argv);
+
+void client_read(int fd, packet_t packet);
+void client_write(int fd, packet_t packet);
 
 #endif
