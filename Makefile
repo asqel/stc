@@ -1,34 +1,23 @@
-SRC = $(wildcard src/*.c)
-OBJ = $(SRC:.c=.o)
 
-CC = gcc
-LD = gcc
+MAKEFLAGS += --no-print-directory
 
-CFLAGS = -Wall -Wextra -Iinclude -fPIC -g
-LDFLAGS = 
-LIBS = oeuf/liboeuf.a
+all:
+	make -C src/server/
+	make -C src/client/
 
-NAME = stc
 
-all: $(NAME)
-
-$(NAME): $(OBJ) $(LIBS)
-	$(LD) -o $(NAME) $(OBJ) $(LIBS) $(LDFLAGS)
-
-%.o: %.c
-	$(CC) $(CFLAGS) -c $< -o $@
-
-oeuf/liboeuf.a:
-	make -C oeuf
+fclean:
+	make -C src/server/ fclean
+	make -C src/client/ fclean
 
 clean:
-	rm -rf $(OBJ)
-	make clean -C oeuf/
+	make -C src/server/ clean
+	make -C src/client/ clean
+	
+server:
+	make -C src/server/ run
 
-fclean: clean
-	rm $(NAME) 
-	make fclean -C oeuf/
+client:
+	make -C src/client/ run
 
-re: fclean all
-
-.PHONY: re fclean clean all test
+.PHONY: all fclean clean server client

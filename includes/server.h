@@ -5,10 +5,10 @@
 
 #define DELETE_TIME 5
 
-packet_t *to_send = NULL;
-size_t to_send_len = 0;
+extern packet_t *to_send;
+extern size_t to_send_len;
 
-oe_hashmap_t channels = {0};
+extern oe_hashmap_t channels;
 
 char	*itoa(int n);
 
