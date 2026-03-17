@@ -2,8 +2,12 @@
 #include "common.h"
 
 void client_read(int fd, packet_t packet) {
-	if (sendto(fd, &packet, PACKET_LEN, 0, (void *)&packet.addr, sizeof(packet.addr)) < 0)
+	char buf[PACKET_LEN] = {0};
+	pack_packet(buf, packet);
+	if (sendto(fd, &buf, PACKET_LEN, 0, (void *)&packet.addr, sizeof(packet.addr)) < 0) {
+		perror("send error");
 		return;
+	}
 
 	struct pollfd pfd;
 	pfd.fd = fd;
@@ -11,8 +15,8 @@ void client_read(int fd, packet_t packet) {
 	pfd.events = POLLIN;
 	poll(&pfd, 1, -1);
 	if (pfd.revents & POLLIN) {
-		char buf[PACKET_LEN];
-		recv(fd, buf, PACKET_LEN, 0);
-		printf("%s", buf);
+		int n = recv(fd, buf, PACKET_LEN, 0);
+		unpack_packet(&packet, buf, n);
+		print_packet(packet);
 	}
 }

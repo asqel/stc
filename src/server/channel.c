@@ -1,4 +1,5 @@
 #include "server.h"
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
@@ -16,6 +17,7 @@ void write_channel(char channel[CHANNEL_LEN + 1], char data[MESSAGE_LEN + 1]) {
 		msg_len -= data_len;
 	}
 	strcpy(&message[msg_len], data);
+	printf("data: %s, channel: %s\n", data, message);
 }
 
 void read_channel(packet_t packet) {

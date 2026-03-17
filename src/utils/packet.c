@@ -1,0 +1,19 @@
+#include "server.h"
+#include <string.h>
+
+void pack_packet(char *buf, packet_t packet) {
+	buf[0] = packet.type;
+	memcpy(&buf[TYPE_LEN], packet.channel, CHANNEL_LEN);
+	memcpy(&buf[TYPE_LEN + CHANNEL_LEN], packet.data, MESSAGE_LEN);
+}
+
+int unpack_packet(packet_t *packet, char *buffer, int len) {
+	if (len != PACKET_LEN)
+		return 1;
+	packet->type = buffer[0];
+	memcpy(packet->channel, &buffer[TYPE_LEN], CHANNEL_LEN);
+	packet->channel[CHANNEL_LEN] = '\0';
+	memcpy(packet->data, &buffer[TYPE_LEN + CHANNEL_LEN], MESSAGE_LEN);
+	packet->data[MESSAGE_LEN] = '\0';
+	return 0;
+}

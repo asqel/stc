@@ -25,6 +25,9 @@ typedef struct {
 	char data[MESSAGE_LEN + 1];
 } packet_t;
 
-int parse_packet(packet_t *packet, char *buffer, int len);
+void pack_packet(char *buf, packet_t packet);
+int unpack_packet(packet_t *packet, char *buffer, int len);
+
+void print_packet(packet_t packet);
 
 #endif

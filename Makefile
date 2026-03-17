@@ -1,4 +1,3 @@
-
 MAKEFLAGS += --no-print-directory
 
 all:
@@ -13,7 +12,7 @@ fclean:
 clean:
 	make -C src/server/ clean
 	make -C src/client/ clean
-	
+
 server:
 	make -C src/server/ run
 

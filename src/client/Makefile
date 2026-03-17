@@ -1,8 +1,8 @@
-CFLAGS = -Wall -Wextra -I../../includes/ -I. -I../../oeuf/
+CFLAGS = -Wall -Wextra -I../../includes/ -I. -I../../oeuf/ -g
 CC = gcc
 LD = gcc
 
-SRC = $(wildcard *.c ../utils/*.c) 
+SRC = $(wildcard *.c ../utils/*.c)
 OBJ = $(SRC:.c=.o) ../../oeuf/liboeuf.a
 
 NAME = client

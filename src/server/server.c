@@ -1,5 +1,6 @@
 #include "server.h"
 #include "common.h"
+#include "oeuf.h"
 #include <signal.h>
 #include <sys/poll.h>
 
@@ -7,6 +8,7 @@
 packet_t *to_send = NULL;
 size_t to_send_len = 0;
 oe_hashmap_t channels = {0};
+oe_hashmap_init(&channels, 4096);
 
 void handle_sigint(int sig) {
 	(void)sig;
