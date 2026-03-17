@@ -10,13 +10,12 @@ extern size_t to_send_len;
 
 extern oe_hashmap_t channels;
 
-char	*itoa(int n);
-
-void read_client(int fd);
+void server_reader(int fd);
+void server_sender(int fd);
 
 void write_channel(char channel[CHANNEL_LEN + 1], char data[MESSAGE_LEN + 1]);
 void read_channel(packet_t packet);
 
-void update_send(int fd);
+
 
 #endif

@@ -9,7 +9,7 @@ void parse_argv(packet_t *packet, int argc, char **argv) {
 	else if (!strcmp(argv[1], "w") || !strcmp(argv[1], "write"))
 		packet->type = 'W';
 
-	if (packet->type == 'R' && argc == 3) {
+	if (packet->type == 'R') {
 		if (argc == 3)
 			strcpy(packet->channel, argv[2]);
 		else

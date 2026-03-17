@@ -8,7 +8,6 @@
 packet_t *to_send = NULL;
 size_t to_send_len = 0;
 oe_hashmap_t channels = {0};
-oe_hashmap_init(&channels, 4096);
 
 void handle_sigint(int sig) {
 	(void)sig;
@@ -16,6 +15,7 @@ void handle_sigint(int sig) {
 }
 
 int main(void) {
+	oe_hashmap_init(&channels, 4096);
 	signal(SIGINT, handle_sigint);
 	int fd = socket(AF_INET, SOCK_DGRAM, 0);
 	if (fd < 0) {
@@ -46,9 +46,9 @@ int main(void) {
 			break;
 
 		if (pfd.revents & POLLIN)
-			read_client(fd);
+			server_reader(fd);
 		if (pfd.revents & POLLOUT && to_send_len)
-			update_send(fd);
+			server_sender(fd);
 	}
 	close(fd);
 	return 0;

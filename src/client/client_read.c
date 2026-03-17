@@ -1,5 +1,6 @@
 #include "client.h"
 #include "common.h"
+#include <stdio.h>
 
 void client_read(int fd, packet_t packet) {
 	char buf[PACKET_LEN] = {0};
@@ -17,6 +18,6 @@ void client_read(int fd, packet_t packet) {
 	if (pfd.revents & POLLIN) {
 		int n = recv(fd, buf, PACKET_LEN, 0);
 		unpack_packet(&packet, buf, n);
-		print_packet(packet);
+		printf("%s\n", packet.data);
 	}
 }

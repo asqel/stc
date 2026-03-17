@@ -4,10 +4,12 @@
 #include <stdlib.h>
 #include <sys/socket.h>
 
-void update_send(int fd) {
+void server_sender(int fd) {
 	to_send_len--;
 	struct sockaddr_in client_addr = to_send[to_send_len].addr;
-	sendto(fd, (void *)&to_send[to_send_len], sizeof(packet_t), 0, (void *)&client_addr, sizeof(client_addr));
+	char buf[PACKET_LEN] = {0};
+	pack_packet(buf, to_send[to_send_len]);
+	sendto(fd, buf, PACKET_LEN, 0, (struct sockaddr *)&client_addr, sizeof(client_addr));
 	to_send = realloc(to_send, to_send_len * sizeof(packet_t));
 	if (!to_send){
 		free(to_send);
