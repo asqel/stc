@@ -12,7 +12,7 @@
 #include <signal.h>
 #include <oeuf.h>
 
-#define PORT 8080
+#define PORT 42124
 #define TYPE_LEN 1
 #define CHANNEL_LEN 16
 #define MESSAGE_LEN 1000

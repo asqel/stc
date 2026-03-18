@@ -1,6 +1,7 @@
 #include <arpa/inet.h>
 #include <stdlib.h>
 #include <netinet/in.h>
+#include <netdb.h>
 #include <stdio.h>
 #include <string.h>
 #include <sys/poll.h>
@@ -18,7 +19,12 @@ int main(int argc, char **argv)
 
 	struct sockaddr_in addr;
 	addr.sin_family = AF_INET;        // IPv4
-	inet_pton(AF_INET, "127.0.0.1", &addr.sin_addr.s_addr);    // converti l'ip en binaire
+	struct hostent *info = gethostbyname(SERVER_ADDR);
+    if (!info) {
+    perror("host not found");
+        return -1;
+    }
+    memcpy(&addr.sin_addr, info->h_addr_list[0], 4);
 	addr.sin_port = htons(PORT);
 
 	packet_t packet = (packet_t){0};

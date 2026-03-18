@@ -3,7 +3,7 @@
 
 #include "common.h"
 
-#define SERVER_ADDR "127.0.0.1"
+#define SERVER_ADDR "asqel.ddns.net"
 
 void parse_argv(packet_t *packet, int argc, char **argv);
 
