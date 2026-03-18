@@ -13,7 +13,6 @@ void server_reader(int fd) {
 	packet.addr = client;
 	if (unpack_packet(&packet, buf, n))
 		return;
-	print_packet(packet);
 	if (packet.type == 'W')
 		write_channel(packet.channel, packet.data);
 	else if (packet.type == 'R')
