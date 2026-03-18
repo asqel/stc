@@ -14,8 +14,9 @@ void write_channel(char channel[CHANNEL_LEN + 1], char data[MESSAGE_LEN + 1]) {
 	printf("original channel len %d incomming %d\n", msg_len, data_len);
 
 	if (msg_len + data_len > MESSAGE_LEN) {
-		memmove(message, &message[data_len], msg_len - data_len);
-		msg_len -= data_len;
+		int rest = MESSAGE_LEN - data_len;
+		memmove(message, &message[msg_len - rest], rest + 1);
+		msg_len = rest;
 	}
 	strcpy(&message[msg_len], data);
 	//printf("data: %s, channel: %s\n", data, message);
