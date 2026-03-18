@@ -1,20 +1,8 @@
-#include <arpa/inet.h>
-#include <stdlib.h>
-#include <netinet/in.h>
-#include <netdb.h>
-#include <stdio.h>
-#include <string.h>
-#include <sys/poll.h>
-#include <sys/socket.h>
-#include <unistd.h>
 #include "client.h"
 #include "common.h"
 
 int main(int argc, char **argv)
 {
-	if (argc < 2)
-		return 1;
-
 	int fd = socket(AF_INET, SOCK_DGRAM, 0);
 
 	struct sockaddr_in addr;

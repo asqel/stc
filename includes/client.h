@@ -1,6 +1,7 @@
 #ifndef CLIENT_H
 #define CLIENT_H
 
+#include <netdb.h>
 #include "common.h"
 
 #define SERVER_ADDR "asqel.ddns.net"

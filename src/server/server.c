@@ -1,17 +1,23 @@
 #include "server.h"
 #include "common.h"
-#include "oeuf.h"
-#include <signal.h>
-#include <sys/poll.h>
 
 
 packet_t *to_send = NULL;
 size_t to_send_len = 0;
 oe_hashmap_t channels = {0};
 
+static void free_elements(char *key, void *val) {
+	(void)key;
+	free(val);
+}
+
 void handle_sigint(int sig) {
 	(void)sig;
-	printf("\nAu revoir !\n");
+	oe_hashmap_free(&channels, free_elements);
+	free(to_send);
+	to_send = NULL;
+	to_send_len = 0;
+	printf("Au revoir !\n");
 }
 
 int main(void) {
