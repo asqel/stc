@@ -1,10 +1,5 @@
 #include "server.h"
 #include "common.h"
-#include "oeuf.h"
-#include <signal.h>
-#include <stddef.h>
-#include <stdlib.h>
-#include <unistd.h>
 
 packet_t *to_send = NULL;
 size_t to_send_len = 0;
