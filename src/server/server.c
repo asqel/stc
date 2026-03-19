@@ -1,4 +1,5 @@
 #include "server.h"
+#include <time.h>
 #include "common.h"
 
 packet_t *to_send = NULL;
@@ -13,6 +14,22 @@ static void free_elements(char *key, void *val) {
 	free(val);
 }
 
+
+int get_next_alarm() {
+	time_t now = time(NULL);
+	struct tm *tm_struct = localtime(&now);
+	char buffer[256] = {0};
+	strftime(buffer, 255, "%H", tm_struct);
+	int hour = atoi(buffer);
+	int res = 0;
+	if (hour < 4)
+		res = (4 - hour) * 3600;
+	else
+		res = (24 - hour + 4) * 3600;
+	printf("next alarm in %ds / %dh\n", res, res / 3600);
+	return res;
+}
+
 static void do_alarm(void) {
 	has_alarmed = 0;
 	char **keys = oe_hashmap_get_keys(&channels);
@@ -22,7 +39,7 @@ static void do_alarm(void) {
 		oe_hashmap_remove(&channels, keys[i], free_elements);
 	}
 	oe_hashmap_free_keys(keys);
-	alarm(60);
+	alarm(get_next_alarm());
 }
 
 void handle_sigint(int sig) {
@@ -62,7 +79,7 @@ int main(void) {
 		close(fd);
 		return 1;
 	}
-	alarm(60);
+	alarm(get_next_alarm());
 	while (1) {
 		struct pollfd pfd;
 		pfd.fd = fd;
