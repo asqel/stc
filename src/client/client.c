@@ -1,18 +1,17 @@
 #include "client.h"
 #include "common.h"
 
-int main(int argc, char **argv)
-{
+int main(int argc, char **argv) {
 	int fd = socket(AF_INET, SOCK_DGRAM, 0);
 
 	struct sockaddr_in addr;
 	addr.sin_family = AF_INET;        // IPv4
 	struct hostent *info = gethostbyname(SERVER_ADDR);
-    if (!info) {
-    perror("host not found");
-        return -1;
-    }
-    memcpy(&addr.sin_addr, info->h_addr_list[0], 4);
+	if (!info) {
+		perror("host not found");
+		return -1;
+	}
+	memcpy(&addr.sin_addr, info->h_addr_list[0], 4);
 	addr.sin_port = htons(PORT);
 
 	packet_t packet = (packet_t){0};

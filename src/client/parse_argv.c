@@ -11,20 +11,19 @@
  */
 void parse_argv(packet_t *packet, int argc, char **argv) {
 	int has_n = 1;
-	strcpy(packet->channel, "general");
 	for (int i = 1; i < argc; i++) {
 		if (argv[i][0] == '-') {
 			if (!strcmp(argv[i], "-n")) {
 				has_n = !has_n;
 			}
-			else {
-				memset(packet->channel, 0, CHANNEL_LEN);
-				if (strlen(argv[i]) > CHANNEL_LEN) {
-					perror("channel to long");
-					return;
-				}
-				strcpy(packet->channel, argv[i]);
+		}
+		if (argv[i][0] == '=') {
+			memset(packet->channel, 0, CHANNEL_LEN);
+			if (strlen(&argv[i][1]) > CHANNEL_LEN) {
+				perror("channel to long");
+				return;
 			}
+			strcpy(packet->channel, &argv[i][1]);
 		}
 		else {
 			memset(packet->data, 0, MESSAGE_LEN);

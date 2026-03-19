@@ -22,10 +22,10 @@ void write_channel(char channel[CHANNEL_LEN + 1], char data[MESSAGE_LEN + 1]) {
 }
 
 void read_channel(packet_t packet) {
+	memset(packet.data, 0, MESSAGE_LEN);
 	char *message = oe_hashmap_get(&channels, packet.channel);
-	if (!message)
-		return;
-	memcpy(packet.data, message, MESSAGE_LEN);
+	if (message)
+		memcpy(packet.data, message, MESSAGE_LEN);
 
 	to_send_len++;
 	to_send = realloc(to_send, to_send_len * sizeof(packet_t));

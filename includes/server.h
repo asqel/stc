@@ -7,7 +7,6 @@
 
 extern packet_t *to_send;
 extern size_t to_send_len;
-
 extern oe_hashmap_t channels;
 
 void server_reader(int fd);
